@@ -34,7 +34,7 @@ def getParameters():
     parser.add_argument('-v', '--version', type=str, default='OmniSR_X2_DF2K',
                                             help="version name for train, test, finetune")
 
-    parser.add_argument('-c', '--cuda', type=int, default=0) # >0 if it is set as -1, program will use CPU
+    parser.add_argument('-c', '--cuda', type=int, default=-1) # >0 if it is set as -1, program will use CPU
     parser.add_argument('-s', '--checkpoint_epoch', type=int, default=885,
                                             help="checkpoint epoch for test phase or finetune phase")
     # test

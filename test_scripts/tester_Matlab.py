@@ -21,6 +21,8 @@ from    utilities.utilities import calculate_psnr, calculate_ssim, tensor2img
 
 # from utilities.Reporter import Reporter
 from    tqdm import tqdm
+import pdb
+from fvcore.nn import FlopCountAnalysis
 
 class Tester(object):
     def __init__(self, config, reporter):
@@ -46,7 +48,6 @@ class Tester(object):
 
         self.dataset_name= config["test_dataset_name"]
         self.image_scale = config["dataset_params"]["image_scale"]
-
         self.test_iter  = len(dataloader)
 
 
@@ -131,7 +132,7 @@ class Tester(object):
         total_ssim = 0
         total_num  = 0
         self.network.eval()
-        patch_test = True
+        patch_test = False
         with torch.no_grad():
             for iii in tqdm(range(self.test_iter)):
                 hr,lr,names = self.test_loader()
@@ -164,6 +165,13 @@ class Tester(object):
                             W[..., h_idx*scale:(h_idx+tile)*scale, w_idx*scale:(w_idx+tile)*scale].add_(out_patch_mask)
                     res = E.div_(W)
                 else:
+                    # pdb.set_trace()
+                    flops = FlopCountAnalysis(self.network, lr)
+                    print(flops.total())
+                    print(flops.by_operator())
+                    print(flops.by_module())
+                    print(flops.by_module_and_operator())
+                    exit()
                     res = self.network(lr)
  
                 dataset_size = res.shape[0]
@@ -184,6 +192,7 @@ class Tester(object):
                     total_num += 1
                     total_psnr += psnr
                     total_ssim += ssim
+
             final_psnr = total_psnr/total_num
             final_ssim = total_ssim/total_num          
 
