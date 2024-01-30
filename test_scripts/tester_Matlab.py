@@ -22,7 +22,7 @@ from    utilities.utilities import calculate_psnr, calculate_ssim, tensor2img
 # from utilities.Reporter import Reporter
 from    tqdm import tqdm
 import pdb
-from fvcore.nn import FlopCountAnalysis
+# from fvcore.nn import FlopCountAnalysis
 
 class Tester(object):
     def __init__(self, config, reporter):
@@ -166,12 +166,12 @@ class Tester(object):
                     res = E.div_(W)
                 else:
                     # pdb.set_trace()
-                    flops = FlopCountAnalysis(self.network, lr)
-                    print(flops.total())
-                    print(flops.by_operator())
-                    print(flops.by_module())
-                    print(flops.by_module_and_operator())
-                    exit()
+                    # flops = FlopCountAnalysis(self.network, lr)
+                    # print(flops.total())
+                    # print(flops.by_operator())
+                    # print(flops.by_module())
+                    # print(flops.by_module_and_operator())
+                    # exit()
                     res = self.network(lr)
  
                 dataset_size = res.shape[0]

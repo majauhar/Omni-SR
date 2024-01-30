@@ -43,7 +43,7 @@ def getParameters():
     parser.add_argument('-n', '--node_ip', type=str, default='localhost') 
 
     parser.add_argument('--test_dataset_name', type=str, default='Urban100', 
-                choices=['DIV2K', 'B100', 'Urban100', 'Set5', 'Set14', "Manga109"])
+                choices=['DIV2K', 'B100', 'Urban100', 'Set5', 'Set14', "Manga109", "RealSR", "DRealSR"])
     return parser.parse_args()
 
 ignoreKey = [

@@ -16,6 +16,7 @@ import torch
 from PIL import Image
 from pathlib import Path
 from torchvision import transforms as T
+import pdb
 
 class TestDataset:
     def __init__(   self,
@@ -44,6 +45,10 @@ class TestDataset:
             self.dataset_name = "B100"
         elif self.dataset_name.lower() == "urban100":
             self.dataset_name = "Urban100"
+        elif self.dataset_name.lower() == "realsr":
+            self.dataset_name = "RealSR"
+        elif self.dataset_name.lower() == "drealsr":
+            self.dataset_name = "DRealSR"
 
         c_transforms  = []
         c_transforms.append(T.ToTensor())
@@ -60,9 +65,25 @@ class TestDataset:
         # import pdb; pdb.set_trace()
         # temp_path   = os.path.join(set5hr_path,'*.%s'%(self.subffix))
         temp_path   = os.path.join(set5hr_path,'*.%s'%('png'))
+        # pdb.set_trace()
         images      = glob.glob(temp_path)
+        # pdb.set_trace()
+        # -- To handle RealSR dataset
         for item in images:
-            file_name   = os.path.basename(item).replace('HR' , 'LRBI')
+            # if self.image_scale == 2 and self.dataset_name == "RealSR":
+            #     temp = 'LR2'
+            # elif self.image_scale == 3 and self.dataset_name == "RealSR":
+            #     temp = 'LR3'
+            # elif self.image_scale == 4 and self.dataset_name == "RealSR":
+            #     temp = 'LR4'
+            if self.image_scale == 2:
+                temp = 'x2'
+            elif self.image_scale == 3:
+                temp = 'x3'
+            elif self.image_scale == 4:
+                temp = 'x4'
+            
+            file_name   = os.path.basename(item).replace(temp , 'x1') # original 'LRBI' # for DRealSR: 'x2' -> 'x1'
             lr_name     = os.path.join(set5lr_path, file_name)
             self.dataset.append([item,lr_name])
         # self.dataset = images
